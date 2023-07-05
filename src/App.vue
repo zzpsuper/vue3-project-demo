@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div></div>
+  <div>测试一下表情提交</div>
 </template>
 
 <style scoped></style>
