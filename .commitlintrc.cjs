@@ -16,6 +16,12 @@ module.exports = {
         'revert',
         'style',
         'test',
+        ':sparkles:', // 引入新功能
+        ':bug:', // 修复 bug
+        ':art:', // 改进代码结构/格式
+        ':memo:', // 撰写文档或注释
+        ':rocket:', // 性能优化
+        ':construction:', // 进行工作中的变更
       ],
     ],
     'type-case':[0],
