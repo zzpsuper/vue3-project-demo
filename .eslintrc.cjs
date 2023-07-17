@@ -14,19 +14,15 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   // 对特定的文件指定处理器
-  // "overrides": [
-  //     {
-  //         "env": {
-  //             "node": true
-  //         },
-  //         "files": [
-  //             ".eslintrc.{js,cjs}"
-  //         ],
-  //         "parserOptions": {
-  //             "sourceType": "script"
-  //         }
-  //     }
-  // ],
+  overrides: [
+    { // icon-box针对「xlink:href」进行v-bind绑定，跳过eslint检测
+      'files': ['src/components/SvgIcon/SvgIcon.vue'],
+      'rules': {
+        'vue/valid-v-bind': 0
+      }
+    }
+  ],
+
   parser: "vue-eslint-parser",
   parserOptions: {
     parser: "@typescript-eslint/parser",
@@ -46,12 +42,12 @@ module.exports = {
 
     // typeScript (https://typescript-eslint.io/rules)
     "@typescript-eslint/no-unused-vars": "error", // 禁止定义未使用的变量
-    "@typescript-eslint/prefer-ts-expect-error": "error", // 禁止使用 @ts-ignore
+    "@typescript-eslint/prefer-ts-expect-error": "off", // 禁止使用 @ts-ignore
     "@typescript-eslint/no-explicit-any": "off", // 禁止使用 any 类型
     "@typescript-eslint/no-non-null-assertion": "off",//禁止使用 ! 进行非空断言后缀运算符
     "@typescript-eslint/no-namespace": "off", // 禁止使用自定义 TypeScript 模块和命名空间。
     "@typescript-eslint/semi": "off", //需要或不允许使用分号代替 ASI
-
+    "@typescript-eslint/ban-ts-comment": "off",
     // eslint-plugin-vue (https://eslint.vuejs.org/rules/)
     "vue/multi-word-component-names": "off", // 要求组件名称始终为 “-” 链接的单词
     // 'vue/script-setup-uses-vars': 'error', // 防止<script setup>使用的变量<template>被标记为未使用

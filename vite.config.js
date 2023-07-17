@@ -5,8 +5,8 @@ import viteEslint from 'vite-plugin-eslint'
 import viteStylelint from 'vite-plugin-stylelint'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { viteMockServe } from 'vite-plugin-mock'
-
-export default defineConfig(({ command }) => {
+export default defineConfig(function (_a) {
+  var command = _a.command
   return {
     plugins: [
       vue(),
@@ -21,14 +21,13 @@ export default defineConfig(({ command }) => {
       }),
       viteMockServe({
         mockPath: 'mock',
-        localEnabled: command === 'serve', //开发阶段使用mock
+        localEnabled: command === 'serve',
       }),
     ],
     resolve: {
       alias: {
         // 这里就是需要配置resolve里的别名
-        '@': path.resolve(__dirname, './src'), // path记得引入
-        // 'vue': 'vue/dist/vue.esm-bundler.js' // 定义vue的别名，如果使用其他的插件，可能会用到别名
+        '@': path.resolve(__dirname, './src'),
       },
     },
     css: {
