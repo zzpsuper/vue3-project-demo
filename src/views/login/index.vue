@@ -2,22 +2,24 @@
   <div class="body">
     <div class="container">
       <div class="tit">登录</div>
-      <el-form>
-        <el-form-item>
+      <el-form :model="loginUser" class="demo-dynamic">
+        <el-form-item prop="username" class="form_item">
           <el-input
             v-model="loginUser.username"
             :prefix-icon="User"
             type="text"
             placeholder="账号"
+            autocomplete="off"
           />
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input
             v-model="loginUser.password"
             :prefix-icon="Lock"
             type="password"
             autocomplete="off"
             placeholder="密码"
+            show-password
           />
         </el-form-item>
       </el-form>
@@ -61,13 +63,6 @@ let loginUser = reactive({
 </script>
 
 <style scoped lang="scss">
-* {
-  padding: 0;
-
-  /* 初始化 */
-  margin: 0;
-}
-
 .body {
   /* 弹性布局居中 */
   display: flex;
@@ -106,16 +101,6 @@ let loginUser = reactive({
   font-size: 26px;
 }
 
-.container input {
-  width: 280px;
-  height: 30px;
-  margin: 12px auto;
-  text-indent: 8px;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  outline: none;
-}
-
 .container button {
   width: 280px;
   height: 40px;
@@ -144,6 +129,14 @@ let loginUser = reactive({
 .container a {
   color: plum;
   text-decoration: none;
+}
+
+.demo-dynamic {
+  width: 80%;
+
+  .form_item {
+    margin-bottom: 10px;
+  }
 }
 
 ul li {

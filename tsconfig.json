@@ -23,7 +23,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["node", "webpack-env"]
+    "types": ["node", "webpack-env", "element-plus/global"]
   },
   "include": ["src/**/*.ts", "env.d.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
