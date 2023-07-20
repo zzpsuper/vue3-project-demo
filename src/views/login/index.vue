@@ -2,14 +2,13 @@
   <div class="body">
     <div class="container">
       <div class="tit">登录</div>
-      <el-form :model="loginUser" class="demo-dynamic">
+      <el-form ref="loginForm" :model="loginUser" :rules="rules" class="demo-dynamic">
         <el-form-item prop="username" class="form_item">
           <el-input
             v-model="loginUser.username"
             :prefix-icon="User"
             type="text"
             placeholder="账号"
-            autocomplete="off"
           />
         </el-form-item>
         <el-form-item prop="password">
@@ -17,48 +16,81 @@
             v-model="loginUser.password"
             :prefix-icon="Lock"
             type="password"
-            autocomplete="off"
             placeholder="密码"
             show-password
           />
         </el-form-item>
       </el-form>
       <el-form-item>
-        <button>登录</button>
+        <el-button :loading="loading" @click="login">登录</el-button>
       </el-form-item>
       <span>
         没有账号？
         <a href="#">去注册</a>
       </span>
     </div>
-    <div class="square">
-      <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
-    <div class="circle">
-      <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { Lock, User } from '@element-plus/icons-vue'
+import useUserStore from '@/store/modules/user.ts'
+import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import { getTime } from '@/utils/time.ts'
+
+let useStore = useUserStore()
+let $router = useRouter()
 
 let loginUser = reactive({
   username: '',
   password: '',
+})
+let loading = ref(false)
+let loginForm = ref()
+
+const login = async () => {
+  loading.value = true
+  await loginForm.value.validate(async (valid) => {
+    if (valid) {
+      try {
+        await useStore.userLogin(loginUser)
+        await $router.push('/')
+        ElNotification({
+          type: 'success',
+          message: '欢迎回来',
+          title: `HI,${getTime()}好`,
+        })
+      } catch (e) {
+        loading.value = false
+        ElNotification({
+          type: 'error',
+          message: (e as Error).message,
+        })
+      }
+    } else {
+      loading.value = false
+    }
+  })
+}
+
+const rules = reactive({
+  // trigger: 'blur'失去焦点时
+  username: [
+    {
+      required: true,
+      message: '用户名不能为空',
+      trigger: 'blur',
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: '密码不能为空',
+      trigger: 'blur',
+    },
+  ],
 })
 </script>
 
@@ -109,7 +141,7 @@ let loginUser = reactive({
   color: #fff;
   letter-spacing: 8px;
   cursor: pointer;
-  background: linear-gradient(-200deg, #fac0e7, #aac2ee);
+  background: linear-gradient(-200deg, #507efc, #aac2ee);
   border: none;
   border-radius: 10px;
 
@@ -118,7 +150,7 @@ let loginUser = reactive({
 }
 
 .container button:hover {
-  background: linear-gradient(-200deg, #aac2ee, #fac0e7);
+  background: linear-gradient(-200deg, #312df1, #994bf8);
   background-position-x: -280px;
 }
 
@@ -136,107 +168,6 @@ let loginUser = reactive({
 
   .form_item {
     margin-bottom: 10px;
-  }
-}
-
-ul li {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  list-style: none;
-  background-color: #fff;
-  border: 1px solid #fff;
-  opacity: 0;
-}
-
-.square li {
-  top: 40vh;
-  left: 60vw;
-  animation: square 10s linear infinite;
-}
-
-.square li:nth-child(2) {
-  top: 80vh;
-  left: 10vw;
-
-  /* 动画延时时间 */
-  animation-delay: 2s;
-}
-
-.square li:nth-child(3) {
-  top: 80vh;
-  left: 85vw;
-
-  /* 动画延时时间 */
-  animation-delay: 4s;
-}
-
-.square li:nth-child(4) {
-  top: 10vh;
-  left: 70vw;
-
-  /* 动画延时时间 */
-  animation-delay: 6s;
-}
-
-.square li:nth-child(5) {
-  top: 10vh;
-  left: 10vw;
-
-  /* 动画延时时间 */
-  animation-delay: 8s;
-}
-
-.circle li {
-  bottom: 0;
-  left: 15vw;
-  animation: circle 10s linear infinite;
-}
-
-.circle li:nth-child(2) {
-  left: 35vw;
-  animation-delay: 2s;
-}
-
-.circle li:nth-child(3) {
-  left: 55vw;
-  animation-delay: 4s;
-}
-
-.circle li:nth-child(4) {
-  left: 75vw;
-  animation-delay: 6s;
-}
-
-.circle li:nth-child(5) {
-  left: 90vw;
-  animation-delay: 8s;
-}
-
-@keyframes square {
-  0% {
-    opacity: 0;
-    transform: scale(0) rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0) rotate(1000deg);
-  }
-}
-@keyframes circle {
-  0% {
-    bottom: 0;
-    border-radius: 0;
-    opacity: 1;
-    transform: scale(0) rotate(0deg);
-  }
-
-  100% {
-    bottom: 90vh;
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0) rotate(1000deg);
   }
 }
 </style>

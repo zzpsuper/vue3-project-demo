@@ -3,7 +3,8 @@ export interface LoginForm {
   password: string
 }
 interface DataType {
-  token: string
+  token?: string
+  message?: string
 }
 export interface LoginResponseData {
   code: number

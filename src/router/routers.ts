@@ -6,7 +6,7 @@ export const constantRouter = [
   },
   {
     path: '/',
-    component: () => import('@/views/home/index.vue'),
+    component: () => import('@/views/layout/index.vue'),
     name: 'layout', //权限用
   },
   {
