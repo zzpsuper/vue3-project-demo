@@ -8,7 +8,11 @@
 <script setup lang="ts">
 import setting from '@/setting.ts'
 </script>
-
+<script lang="ts">
+export default {
+  name: 'Logo',
+}
+</script>
 <style scoped lang="scss">
 .logo {
   box-sizing: border-box;
@@ -16,7 +20,7 @@ import setting from '@/setting.ts'
   align-items: center;
   width: 100%;
   height: $base-menu-logo-height;
-  padding: 15px;
+  padding: 12px;
   color: white;
 
   img {
